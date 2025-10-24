@@ -1,1 +1,33 @@
+version: "3.8"
 
+services:
+  nginx:
+    image: nginx:stable
+    container_name: nginx_proxy
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
+    environment:
+      - ACTIVE_POOL=${ACTIVE_POOL}
+    depends_on:
+      - blue
+      - green
+
+  blue:
+    image: ${BLUE_IMAGE}
+    container_name: app_blue
+    environment:
+      - RELEASE_ID=${RELEASE_ID_BLUE}
+      - APP_PORT=${APP_INTERNAL_PORT}
+    ports:
+      - "${BLUE_PORT}:${APP_INTERNAL_PORT}"
+
+  green:
+    image: ${GREEN_IMAGE}
+    container_name: app_green
+    environment:
+      - RELEASE_ID=${RELEASE_ID_GREEN}
+      - APP_PORT=${APP_INTERNAL_PORT}
+    ports:
+      - "${GREEN_PORT}:${APP_INTERNAL_PORT}"
