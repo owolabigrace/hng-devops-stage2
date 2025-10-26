@@ -19,7 +19,7 @@ services:
       - APP_POOL=blue
       - RELEASE_ID=blue-v1
     ports:
-      - "8081:8081"
+      - "8081:3000"
 
   app_green:
     image: yimikaade/wonderful:devops-stage-two
@@ -28,4 +28,4 @@ services:
       - APP_POOL=green
       - RELEASE_ID=green-v1
     ports:
-      - "8082:8082"
+      - "8082:3000"
