@@ -1,7 +1,3 @@
-version: "3.9"
-
-env_file:
-  - .env
 
 services:
   nginx:
@@ -23,7 +19,7 @@ services:
       "
 
   app_blue:
-    image: ${BLUE_IMAGE}
+    image: yimikaade/wonderful:devops-stage-two
     container_name: app_blue
     environment:
       - APP_POOL=blue
@@ -33,7 +29,7 @@ services:
       - "8081:3000"
 
   app_green:
-    image: ${GREEN_IMAGE}
+    image: yimikaade/wonderful:devops-stage-two
     container_name: app_green
     environment:
       - APP_POOL=green
