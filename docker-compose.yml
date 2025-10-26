@@ -1,39 +1,31 @@
+version: "3.9"
 
 services:
-  nginx:
-    image: nginx:latest
-    container_name: nginx
+  nginx_proxy:
+    image: nginx:stable
+    container_name: nginx_proxy
     ports:
-      - "8080:80"
+      - "8080:8080"
     volumes:
-      - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
-    environment:
-      - ACTIVE_POOL=${ACTIVE_POOL}
+      - ./nginx.conf.template:/etc/nginx/nginx.conf:ro
     depends_on:
       - app_blue
       - app_green
-    command: >
-      /bin/sh -c "
-        envsubst '\$ACTIVE_POOL' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf &&
-        nginx -g 'daemon off;'
-      "
 
   app_blue:
     image: yimikaade/wonderful:devops-stage-two
     container_name: app_blue
     environment:
       - APP_POOL=blue
-      - RELEASE_ID=${RELEASE_ID_BLUE}
-      - PORT=${PORT}
+      - RELEASE_ID=blue-v1
     ports:
-      - "8081:3000"
+      - "8081:8081"
 
   app_green:
     image: yimikaade/wonderful:devops-stage-two
     container_name: app_green
     environment:
       - APP_POOL=green
-      - RELEASE_ID=${RELEASE_ID_GREEN}
-      - PORT=${PORT}
+      - RELEASE_ID=green-v1
     ports:
-      - "8082:3000"
+      - "8082:8082"
