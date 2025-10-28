@@ -15,15 +15,11 @@ http {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
-
-      proxy_connect_timeout 1s;
-      proxy_read_timeout 2s;
-      proxy_next_upstream error timeout http_500 http_502 http_503 http_504;
-      proxy_next_upstream_tries 2;
     }
 
-    location /health {
-      return 200 "OK - Nginx is running and proxying to app_backend\n";
+    location = /version {
+      default_type text/plain;
+      return 200 "Status: OK | Blue Release: blue-v1 | Green Release: green-v1\n";
     }
   }
 }
