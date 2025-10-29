@@ -21,7 +21,7 @@ http {      # <- upstream must be inside this block
     server {
         listen 8080;
 
-        location / {
+        location /version {
             proxy_pass http://backend$request_uri;
             proxy_http_version 1.1;
             proxy_set_header Connection "";
